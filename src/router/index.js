@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -11,9 +10,18 @@ const routes = [
     component: ()=>import("@/views/Home"),
     children:[
       {
-        path: '/view',
-        name: 'view',
+        path: '/article/:id',
+        name: 'article',
         component: ()=>import("@/views/article/index")
+      },
+      {
+        path: '/video',
+        name: 'video',
+        component: ()=>import("@/views/video/index")
+      },{
+        path: '/archive',
+        name: 'archive',
+        component: ()=>import("@/views/archive/index")
       }
     ]
   }

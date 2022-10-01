@@ -1,19 +1,50 @@
 <template>
     <div class="my-header">
         <div class="header">
-            <a href="#" class="logo">LOGO</a>
+            <router-link to="/" class="logo">LOGO</router-link>
             <ul>
-                <li><a><router-link to="/">Home</router-link></a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Service</a></li>
-                <li><a href="#">Team</a></li>
-                <li><a href="#">Contact</a></li>
+                <li>
+                    <router-link to="/"><svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-shouye"></use>
+                        </svg></router-link>
+                </li>
+                <li>
+                    <router-link to="/Category">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-biji"></use>
+                        </svg>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/tag">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-biaoqian"></use>
+                        </svg>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/video">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-bilibili"></use>
+                        </svg>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/archive">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-shoucang"></use>
+                        </svg>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-shoucang"></use>
+                        </svg>
+                    </router-link>
+                </li>
             </ul>
         </div>
-        <!-- <div class="me" >
-            <section class="banner"></section>
-        </div> -->
-        
     </div>
 </template>
 
@@ -25,8 +56,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
-
+svg {
+    width: 25px;
+    height: 25px;
+    margin: 0 10px;
+}
 
 .header {
     background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
@@ -39,7 +73,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     transition: 0.6s;
-    padding:20px 100px;
+    padding: 20px 100px;
 
     .logo {
         position: relative;
@@ -76,10 +110,11 @@ export default {
 
 }
 
-.header.sticky{
+.header.sticky {
     padding: 5px 100px;
     background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-    a{
+
+    a {
         color: #000;
         font-weight: 700;
     }
@@ -93,5 +128,4 @@ export default {
 //     background: url(https://tvax1.sinaimg.cn/large/006MWoJqgy1h299wqkpalj31e010s1ip.jpg);
 //     background-size: cover;
 // }
-
 </style>

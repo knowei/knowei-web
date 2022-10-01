@@ -2,9 +2,9 @@
   <div class="view">
     <div class="view-header">
       <div class="view-title">
-        <span>我的第一遍文章</span>
+        <span style="text-align: center;">{{article.articleTitle}}</span>
         <div class="view-dateTime">
-          Create at 2022-09-28 18:10:11
+          Create at {{article.createTime}}
         </div>
       </div><img src="https://tvax1.sinaimg.cn/large/006MWoJqgy1h299wqkpalj31e010s1ip.jpg" alt="">
     </div>
@@ -14,117 +14,16 @@
     </div>
 
     <div class="view-content ">
-      <div v-highlight class="view-arti " id="pai-md">
 
+      <hr>
+      <div v-highlight class="view-arti " id="pai-md" v-html="article.articleBodyVo.content">
 
-        <h1 id='基本算法'>基本算法</h1>
-        <h1 id='1位运算'>1.位运算</h1>
-        <h2 id='1ab'>1.a^b</h2>
-        <p><a href='https://www.acwing.com/problem/content/description/91/'>题目链接</a></p>
-        <h3 id='题目描述-1'>题目描述</h3>
-        <p>就是让我们求$a^b mod p$的值
-          数据范围为
-          $0≤a,b≤10^9 1≤p≤10^9$</p>
-        <h4 id='样例-1'>样例</h4>
-        <h5 id='输入-1'>输入</h5>
-        <p>3 2 7</p>
-        <h5 id='输出-1'>输出</h5>
-        <p>2</p>
-        <h3 id='算法1'>算法1</h3>
-        <h5 id='数学问题'>数学问题</h5>
-        <p>模板题，快速幂算法
-          例如求，3^11</p>
-        <blockquote>
-          <p>3^11 = 3^1 * 3^2 * 3^8
-            我们可以把7转换为二进制 1011, 可以看出我们只需把进制上面为1的值进行相乘即可，为0的忽略即可，我们只需循环4次即可把3^11求出来。</p>
-        </blockquote>
-        <h4 id='c-代码'>C++ 代码</h4>
-        <pre v-highlight><code class='language-cpp' lang='cpp'>#include&lt;iostream&gt;
-#define ll long long
-using namespace std;
-int a, b;
-int mod;
-ll qmi(int m, int k, int p)
-{
-    ll res = 1 % p, t = m;
-    while (k)
-    {
-        //使用与运算将改为取出来判断是否为1
-        if (k&amp;1) res = res * t % p; 
-        //求出改为对应的次方
-        t = t * t % p;    
-        //右移一位，将后面一位移到当前位置  
-        k &gt;&gt;= 1;
-    }
-    return res;
-}
-int main()
-{
-    cin &gt;&gt; a &gt;&gt; b &gt;&gt; mod;
-    cout &lt;&lt; qmi(a, b, mod);
-    return 0;
-}
-</code></pre>
-        <hr />
-        <h1 id='2递推与递归'>2.递推与递归</h1>
-        <h2 id='1递归实现指数型枚举'>1.递归实现指数型枚举 </h2>
-        <p><a href='https://www.acwing.com/problem/content/94/'>题目链接</a></p>
-        <h3 id='题目描述-2'>题目描述</h3>
-        <p>从 1∼n 这 n 个整数中随机选取任意多个，输出所有可能的选择方案。</p>
-        <h4 id='样例-2'>样例</h4>
-        <h5 id='输入-2'>输入</h5>
-        <p>3</p>
-        <h5 id='输出-2'>输出</h5>
-        <p>3
-          2
-          2 3
-          1
-          1 3
-          1 2
-          1 2 3</p>
-        <hr />
-        <h3 id='算法'>算法</h3>
-        <h4 id='思路'>思路</h4>
-        <p>因为是从n个数中随机选任意多个，所以我们可以使用2进制的形式来代表选和不选当前位置，比如101，即为选择1 3两个数</p>
-        <h4 id='c代码'>C++代码</h4>
-        <pre><code class='language-cpp' lang='cpp'>#include &lt;iostream&gt;
-#include &lt;cstring&gt;
-#include &lt;stack&gt;
-#include &lt;vector&gt;
-#include &lt;algorithm&gt;
-using namespace std;
-const int N = 15;
-int n;
-int cnt;
-int ans[N];
-void dfs(int x, int state)
-{
-    if(x == n)
-    {
-        for(int i = 0; i &lt; n; i++)
-            if(state &gt;&gt; i &amp; 1)
-                cout &lt;&lt; i + 1 &lt;&lt; &quot; &quot;;
-        cout &lt;&lt; endl;
-        return;
-    }
-    dfs(x + 1, state);
-    dfs(x + 1, state + (1 &lt;&lt; x));
-}
-int main()
-{
-    cin &gt;&gt; n;
-    dfs(0, 0);
-    return 0;
-}
-</code></pre>
-        <h1>你好</h1>
       </div>
 
       <hr />
     </div>
 
-
-
+    <!-- 评论写入滴滴滴滴 -->
     <div class="view-comments">
       <div class="comment-header">
         <div class="comment-title">
@@ -132,106 +31,49 @@ int main()
         </div>
         <div class="commit">
           <div class="commit-info">
-            <input type="text" placeholder="QQ(必填)">
+            <input type="text" v-model="QQinputData" placeholder="QQ(必填)">
             <input type="text" placeholder="email(选填)">
             <input type="text" placeholder="https(选填)">
           </div>
           <div class="commit-canti">
-            <textarea placeholder="欢迎留言" name="" id="" style="width:100%;height:100%;"></textarea>
+            <textarea placeholder="欢迎留言" v-model="commentParams.content" style="width:100%;height:100%;"></textarea>
           </div>
           <div class="commit-submit">
-            <span>提交</span>
+            <span @click="submitInfo">提交</span>
           </div>
         </div>
 
         <!-- 小伙伴评论地方 -->
         <div class="friend">
-          <div class="friend-container">
+          <div class="friend-container" v-for="(item, index) in articleComment" :key="index">
             <div>
-              <img src="https://tva4.sinaimg.cn/large/006MWoJqgy1h5vpte222nj31jg1jgjzm.jpg" alt="">
+              <img :src="item.authorImg" alt="">
             </div>
             <!-- <div class="friend-title"> -->
             <div class="friend-info">
-              <div class="friend-nickname">knowei <span><a href="">回复</a></span></div>
-              <div class="friend-time">2022-09-14</div>
+              <div class="friend-nickname">{{item.commentUsername}} <span><a href="">回复</a></span></div>
+              <div class="friend-time">{{item.ctime}}</div>
               <!-- 评论内容 -->
-              <div class="friend-msg">好耶</div>
+              <div class="friend-msg">{{item.content}}</div>
               <!-- 子评论 -->
               <div>
-                <div>
+                <div v-for="(it,ind) in item.childrens" :key="ind">
                   <div>
-                    <img src="https://tva4.sinaimg.cn/large/006MWoJqgy1h5vpte222nj31jg1jgjzm.jpg" alt="">
+                    <img :src="it.authorImg" alt="">
                   </div>
                   <!-- <div class="friend-title"> -->
                   <div class="friend-child">
-                    <div class="friend-nickname">knowei</div>
+                    <div class="friend-nickname">{{it.commentUsername}} <span><a href="">回复</a></span></div>
 
-                    <div class="friend-time">2022-09-14</div>
+                    <div class="friend-time">{{it.ctime}}</div>
                     <!-- 评论内容 -->
-                    <div class="friend-msg" style="border: 0;!important">好耶</div>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <img src="https://tva4.sinaimg.cn/large/006MWoJqgy1h5vpte222nj31jg1jgjzm.jpg" alt="">
-                  </div>
-                  <!-- <div class="friend-title"> -->
-                  <div class="friend-child">
-                    <div class="friend-nickname">knowei</div>
-
-                    <div class="friend-time">2022-09-14</div>
-                    <!-- 评论内容 -->
-                    <div class="friend-msg" style="border: 0;!important">好耶</div>
+                    <div class="friend-msg" style="border: 0;!important">{{it.content}}</div>
                   </div>
                 </div>
 
               </div>
             </div>
           </div>
-          <div class="friend-container">
-            <div>
-              <img src="https://tva4.sinaimg.cn/large/006MWoJqgy1h5vpte222nj31jg1jgjzm.jpg" alt="">
-            </div>
-            <!-- <div class="friend-title"> -->
-            <div class="friend-info">
-              <div class="friend-nickname">knowei <span><a href="">回复</a></span></div>
-              <div class="friend-time">2022-09-14</div>
-              <!-- 评论内容 -->
-              <div class="friend-msg">好耶</div>
-              <!-- 子评论 -->
-              <div>
-                <div>
-                  <div>
-                    <img src="https://tva4.sinaimg.cn/large/006MWoJqgy1h5vpte222nj31jg1jgjzm.jpg" alt="">
-                  </div>
-                  <!-- <div class="friend-title"> -->
-                  <div class="friend-child">
-                    <div class="friend-nickname">knowei</div>
-
-                    <div class="friend-time">2022-09-14</div>
-                    <!-- 评论内容 -->
-                    <div class="friend-msg" style="border: 0;!important">好耶</div>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <img src="https://tva4.sinaimg.cn/large/006MWoJqgy1h5vpte222nj31jg1jgjzm.jpg" alt="">
-                  </div>
-                  <!-- <div class="friend-title"> -->
-                  <div class="friend-child">
-                    <div class="friend-nickname">knowei</div>
-
-                    <div class="friend-time">2022-09-14</div>
-                    <!-- 评论内容 -->
-                    <div class="friend-msg" style="border: 0;!important">好耶</div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- </div> -->
 
         </div>
       </div>
@@ -254,14 +96,45 @@ int main()
 <script>
 import $ from 'jquery'
 import "@/assets/js/comment.js"
+import message from "@/assets/js/message";
+import { getArticle } from "@/api/article"
+import { Comment, GetComment, GetAv } from "@/api/comment"
+import { marked } from 'marked'
 export default {
+  components: {
+  },
   data() {
     return {
-      point: {},
-      directory: false
+      //文章目录
+
+      comment: {
+        QQinputData: ''
+      },
+
+      point: ' ',
+      directory: true,
+      QQstatus: false,
+      QQinputData: '',
+      timer: 0,
+      article: '',
+      QQ: '',
+      email: '',
+      ipAdd: '',
+      img: '',
+      name: '',
+      commentParams: {
+        usernameId: '',
+        commentUsername: '',
+        content: '',
+        articleId: '',
+        parentId: '',
+        authorImg: ''
+      },
+      articleComment: ''
     }
   },
   methods: {
+    //返回顶部
     toTop() {
       let timer = -1
       let scrollTo = document.documentElement.scrollTop || document.body.scrollTop
@@ -276,66 +149,151 @@ export default {
           window.scrollTo(0, scrollTo)
         }, 10);
       }
-    }
-  },
-  mounted() {
-    var points = $('#pai-md') //内容列表
-    var point = ''
-    //循环获取内容的所有标签
-    for (var i = 0; i < points[0].children.length; i++) {
-
-      // 获取带H的标签
-      if (points[0].children[i].localName.indexOf('h') !== -1 && points[0].children[i].localName.indexOf('hr') == -1) {
-
-        // 获取h2
-        if (points[0].children[i].localName.indexOf('h1') !== -1) {
-          points[0].children[i].className = i
-
-        }
-        // // 获取h2
-        if (points[0].children[i].localName.indexOf('h2') !== -1) {
-          points[0].children[i].className = i
-        }
-        //获取h3
-        if (points[0].children[i].localName.indexOf('h3') !== -1) {
-          points[0].children[i].className = i
-        }
-
-        const title = $.extend(true, {}, points[0].children[i]);
-
-
-        point += title.outerHTML
-        points[0].children[i].id = `h1_id_${i}`
-      }
-
-
-    }
-
-    this.point = point
-
-    //循环获取标题标签给内容加点击事件
-
-    //延迟0秒
-    setTimeout(function () {
-
-      //循环获取内容的所有标签
-      for (var i = 0; i < $('#point')[0].children.length; i++) {
-        // $('#point')[0].children[i].className 设置class名称
-
-        //绑定点击事件根据className定位内容ID位置
-        $($('#point')[0].children[i]).click(function (e) {
-          location.href = `#h1_id_${e.target.className}`;
+    },
+    msg(value) {
+      var QQtest = /^[1-9][0-9]{4,10}$/
+      if (!QQtest.test(value)) {
+        message.run("QQ格式错误", "error")
+        // this.QQstatus = false
+      } else {
+        this.QQstatus = true
+        GetAv(value).then(res => {
+            this.commentParams.commentUsername = res.data.data.name
+            this.commentParams.authorImg = res.data.data.avatar
+            this.QQinputData = res.data.data.name
         })
       }
-    }, 0); //延时10秒
+    },
+    // 根据id获取文章详情
+    getArticle() {
+      let id = this.$route.params.id
+      getArticle(id).then(res => {
+        if (res.data.code === 200) {
+          this.article = res.data.data;
+          // md格式渲染在页面
+          this.article.articleBodyVo.content = marked(res.data.data.articleBodyVo.content)
 
-    console.log(this.point)
+        }
+      })
+    },
+    submitInfo() {
+      if(this.QQstatus == false)
+        return;
+      this.commentParams.articleId = this.$route.params.id
+      console.log(this.commentParams)
+      Comment(this.commentParams).then(res => {
+        if (res.data.code === 200) {
+          this.$message({
+            type: 'success',
+            message: '评论成功'
+          })
+
+          this.commentParams.parentId = ''
+          this.commentParams.content = ''
+          this.QQ = ''
+          this.getAllComment()
+        }
+      })
+    },
+    getAllComment() {
+      let id = this.$route.params.id
+      GetComment(id).then(res => {
+        if (res.data.code === 200) {
+          this.articleComment = res.data.data
+          console.log(this.articleComment)
+        }
+      })
+    },
+    showDetails(id, textid) {
+      var el = document.getElementsByClassName("comment-submit")[0]
+      this.$nextTick(function () {
+        window.scrollTo({ "behavior": "smooth", "top": el.offsetTop - 100 });
+      })
+      this.commentParams.parentId = id
+      this.commentParams.content = '@' + this.articleComment[textid].commentUsername + "    "
+    }
+  },
+  // mounted() {
+  //   var points = $('#pai-md') //内容列表
+  //   console.log(points)
+  //   var point = ''
+  //   //循环获取内容的所有标签
+  //   for (var i = 0; i < points[0].children.length; i++) {
+
+  //     // 获取带H的标签
+  //     if (points[0].children[i].localName.indexOf('h') !== -1 && points[0].children[i].localName.indexOf('hr') == -1) {
+
+  //       // 获取h2
+  //       if (points[0].children[i].localName.indexOf('h1') !== -1) {
+  //         points[0].children[i].className = i
+
+  //       }
+  //       // // 获取h2
+  //       if (points[0].children[i].localName.indexOf('h2') !== -1) {
+  //         points[0].children[i].className = i
+  //       }
+  //       //获取h3
+  //       if (points[0].children[i].localName.indexOf('h3') !== -1) {
+  //         points[0].children[i].className = i
+  //       }
+
+  //       const title = $.extend(true, {}, points[0].children[i]);
+
+
+  //       point += title.outerHTML
+  //       points[0].children[i].id = `h1_id_${i}`
+
+  //     }
+  //   }
+
+  //   console.log(111111)
+  //   this.point = point
+  //   //循环获取标题标签给内容加点击事件
+  //   //延迟0秒
+  //   setTimeout(function () {
+
+  //     //循环获取内容的所有标签
+  //     for (var i = 0; i < $('#point')[0].children.length; i++) {
+  //       // $('#point')[0].children[i].className 设置class名称
+
+  //       //绑定点击事件根据className定位内容ID位置
+  //       $($('#point')[0].children[i]).click(function (e) {
+  //         location.href = `#h1_id_${e.target.className}`;
+  //       })
+  //     }
+  //   }, 0); //延时10秒
+
+  // },
+  //监听数据变换
+  watch: {
+    QQinputData(value) {
+      if (this.timer === 0) {
+        this.timer = setTimeout(() => {
+          //  this.GetValue()
+          this.msg(value)
+        }, 1000)
+      } else {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          //  this.GetValue()
+          this.msg(value)
+        }, 1000)
+      }
+
+    }
+  },
+  created() {
+    this.getArticle()
+    this.getAllComment()
+
+
   }
 }
 </script>
 
 <style lang="less" scoped>
 @import url("@/assets/css/article.css");
+@import url("@/assets/css/message.css");
 
 .view-header {
   height: 400px;
@@ -357,7 +315,7 @@ export default {
       font-size: 2em;
       color: white;
       font-weight: 800;
-      letter-spacing: 7px;
+      letter-spacing: 3px;
     }
 
     .view-dateTime {
@@ -370,21 +328,48 @@ export default {
 .article-directory {
   z-index: 10;
   top: 10px;
-  margin-top: 50px;
+  margin-top: 100px;
   // box-shadow: 1px 0px 10px 10px #a1a0a082;
   background: rgb(245, 244, 244);
   position: fixed;
   max-width: 33%;
   border-radius: 10px;
   right: 0;
+  transition: all 0.9s;
 
-  div {
-    padding: 10px;
+  h1 {
+    font-size: 10px;
+  }
+
+  #point {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      padding: 5px 0;
+      cursor: pointer;
+      transition: all 0.9s;
+    }
+
+    h1:hover,
+    h2:hover,
+    h3:hover,
+    h4:hover,
+    h5:hover,
+    h6:hover {
+      padding-left: 4px;
+      text-decoration: underline;
+    }
+
   }
 
   #point h1 {
     font-size: 16px;
     border: 0 !important;
+
   }
 
   #point h2 {
@@ -414,7 +399,7 @@ export default {
 }
 
 .view-content {
-  margin-top: 50px;
+  margin-top: 20px;
   padding-bottom: 50px;
   background: rgba(255, 255, 255, 0.443);
   padding-top: 50px;
@@ -485,14 +470,14 @@ export default {
     .commit {
       padding: 10px 0;
       // margin-top: 2px;
-      border: 1px solid black;
+      border: 1px solid rgb(187, 183, 183);
       border-radius: 5px;
 
       .commit-info {
         display: flex;
         line-height: 1.75px;
         height: 50px;
-        border-bottom: 1px dashed black;
+        border-bottom: 1px dashed rgb(169, 162, 162);
         margin: 0 10px 40px;
 
         input {
@@ -521,11 +506,12 @@ export default {
 
         span {
           padding: 5px 15px;
-          border: 1px solid black;
+          border: 1px solid rgb(51, 51, 51);
           border-radius: 5px;
           right: 0;
           display: inline-block;
           font-size: 14px;
+          cursor: pointer;
 
         }
       }
@@ -540,6 +526,7 @@ export default {
   position: fixed;
   right: 40px;
   bottom: 60px;
+  z-index: 10;
 
   li {
     margin: 40px 0;
@@ -578,7 +565,7 @@ export default {
     .friend-info {
       margin-left: 60px;
       display: block;
-      border-bottom: 1px dashed black;
+      border-bottom: 1px dashed rgb(185, 184, 184);
 
       div {
         display: list-item;

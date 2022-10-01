@@ -1,29 +1,46 @@
 <template>
     <div class="pro">
 
-        <div class="me" >
+        <div class="me">
             <section class="banner"></section>
         </div>
 
         <div class="pro-file">
             <div class="myinfo">
-                <span style="font-weight: 800;font-size: 3em;letter-spacing: 5px;color: #fff;"> KNOWEIのBLOG</span><br/>
+                <span style="font-weight: 800;font-size: 3em;letter-spacing: 5px;color: #fff;"> KNOWEIのBLOG</span><br />
                 <span style="font-weight: 300; font-size: 25px;padding-top: 100px;color: #fff">我可以孑然一身，但不能心无所属。</span>
             </div>
         </div>
-        <div class="down"></div>
+        <div class="down" @click="goDown"></div>
     </div>
 </template>
 
 <script>
 export default {
+    methods: {
+        goDown() {
+            console.log(document.documentElement.clientHeight)
 
+            let timer = -1
+            let scrollTo = document.documentElement.scrollTop || document.body.scrollTop
+            if (timer === -1) {
+                timer = setInterval(() => {
+                    scrollTo += 20
+                    if (scrollTo >= document.documentElement.clientHeight) {
+                        scrollTo = document.documentElement.clientHeight
+                        window.clearInterval(timer)
+                        timer = -1
+                    }
+                    window.scrollTo(document.documentElement.clientHeight,scrollTo)
+                }, 10);
+            }
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-
-.banner{
+.banner {
     position: relative;
     width: 100%;
     height: 100vh;
@@ -42,7 +59,7 @@ export default {
 
 }
 
-.myinfo{
+.myinfo {
     text-align: center;
     margin: 500px 0;
 }
@@ -61,16 +78,19 @@ export default {
     background-size: 100% 100%;
     animation: arrow-load 2s infinite;
 }
+
 //动画
-@keyframes arrow-load{
-    0%{
+@keyframes arrow-load {
+    0% {
         opacity: 0;
     }
-    50%{
+
+    50% {
         opacity: 1;
         bottom: 90px;
     }
-    100%{
+
+    100% {
         opacity: 1;
         bottom: 80px;
     }

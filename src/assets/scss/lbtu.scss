@@ -16,7 +16,6 @@ body {
     hr{
         border: 1px dashed #ececec;
     }
-
 }
 
 .article-item {
@@ -25,21 +24,27 @@ body {
   height: 300px;
   margin: 10px 0;
   // box-shadow: 0 1px 20px -6pxrgba(0, 0, 0, .5);
+  transform: translateY(5vw);
+  transition: all 0.5s ease-out;
+}
+
+ .show{
+  transform: translateX(0vw);
 }
 
 .article-item-right {
   float: right;
-  background-color: brown;
-  width: 60%;
+  width: 58%;
   height: 100%;
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
   overflow: hidden;
 }
 
+
+
 .article-img {
   display: inline-flex;
-  background-color: brown;
   height: 100%;
   width: 100%;
   border-bottom-right-radius: 10px;
