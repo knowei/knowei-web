@@ -1,12 +1,17 @@
 <template>
   <div class="view">
+
+    <div v-show="article == null">
+      <Loading/>
+    </div>
+
     <div class="view-header">
       <div class="view-title">
         <span style="text-align: center;">{{article.articleTitle}}</span>
         <div class="view-dateTime">
           Create at {{article.createTime}}
         </div>
-      </div><img src="https://tvax1.sinaimg.cn/large/006MWoJqgy1h299wqkpalj31e010s1ip.jpg" alt="">
+      </div><img :src="article.articleCover" alt="">
     </div>
 
     <div class="article-directory" v-show="directory">
@@ -39,7 +44,7 @@
             <textarea placeholder="欢迎留言" v-model="commentParams.content" style="width:100%;height:100%;"></textarea>
           </div>
           <div class="commit-submit">
-            <span @click="submitInfo">提交</span>
+            <span @click="submitInfo()">提交</span>
           </div>
         </div>
 
@@ -51,7 +56,7 @@
             </div>
             <!-- <div class="friend-title"> -->
             <div class="friend-info">
-              <div class="friend-nickname">{{item.commentUsername}} <span><a href="">回复</a></span></div>
+              <div class="friend-nickname">{{item.commentUsername}} <span style="cursor: pointer;color:#1a416b;font-weight: 600;"  @click="showDetails(item._id, index)">回复</span></div>
               <div class="friend-time">{{item.ctime}}</div>
               <!-- 评论内容 -->
               <div class="friend-msg">{{item.content}}</div>
@@ -63,7 +68,7 @@
                   </div>
                   <!-- <div class="friend-title"> -->
                   <div class="friend-child">
-                    <div class="friend-nickname">{{it.commentUsername}} <span><a href="">回复</a></span></div>
+                    <div class="friend-nickname">{{it.commentUsername}} <span style="cursor: pointer;"></span></div>
 
                     <div class="friend-time">{{it.ctime}}</div>
                     <!-- 评论内容 -->
@@ -100,8 +105,10 @@ import message from "@/assets/js/message";
 import { getArticle } from "@/api/article"
 import { Comment, GetComment, GetAv } from "@/api/comment"
 import { marked } from 'marked'
+import loading from '@/components/loading/loading.vue';
 export default {
   components: {
+    loading
   },
   data() {
     return {
@@ -177,17 +184,14 @@ export default {
       })
     },
     submitInfo() {
+      
       if(this.QQstatus == false)
         return;
       this.commentParams.articleId = this.$route.params.id
       console.log(this.commentParams)
       Comment(this.commentParams).then(res => {
         if (res.data.code === 200) {
-          this.$message({
-            type: 'success',
-            message: '评论成功'
-          })
-
+          message.run("评论成功","success")
           this.commentParams.parentId = ''
           this.commentParams.content = ''
           this.QQ = ''
@@ -285,8 +289,6 @@ export default {
   created() {
     this.getArticle()
     this.getAllComment()
-
-
   }
 }
 </script>
@@ -562,6 +564,7 @@ export default {
   }
 
   .friend-container {
+    padding-top: 30px;
     .friend-info {
       margin-left: 60px;
       display: block;

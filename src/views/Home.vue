@@ -1,8 +1,13 @@
 <template>
   <div class="home">
     <Header />
+
+    <div v-show="!articleList.length">
+      <Loading />
+    </div>
+
     <div v-if="this.$route.path != '/'">
-      <router-view />
+      <router-view :key="1"/>
     </div>
     <div v-else>
       <Profile />
@@ -16,7 +21,9 @@
           <article class="article-item" v-for="(item, index) in articleList" :key="index">
             <div class="article-list">
               <div class="article-span " :class="{arright:index % 2 == 0}">
-                <div class="article-time">发表于 {{item.createTime}}</div>
+                <div class="article-time"> <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-shijian"></use>
+                  </svg>发表于 {{item.createTime}}</div>
                 <div class="article-title">
                   <router-link to="/view">
                     <router-link :to="{name: 'article', params:{id: item.id}}">
@@ -26,8 +33,12 @@
                 </div>
 
                 <div class="article-ex">
-                  <div>{{item.count}} 评论</div>
-                  <div>{{item.category.categoryName}}</div>
+                  <div><svg class="icon" aria-hidden="true">
+                      <use xlink:href="#icon-31pinglun"></use>
+                    </svg> {{item.count}} 评论</div>
+                  <div><svg class="icon" aria-hidden="true">
+                      <use xlink:href="#icon-wenjianjia"></use>
+                    </svg>{{item.category.categoryName}}</div>
                 </div>
                 <div class="article-des">
                   {{item.articleDescribe}}
@@ -42,10 +53,6 @@
           </article>
         </div>
       </div>
-    </div>
-
-    <div>
-
     </div>
 
     <footer>
@@ -63,13 +70,14 @@ import Profile from '@/components/Profile.vue';
 //鼠标样式
 import "@/assets/js/shubiao"
 import { getAtricleList } from "@/api/article"
-
+import Loading from "@/components/loading/loading.vue";
 
 export default {
   name: 'Home',
   components: {
     Header,
-    Profile
+    Profile,
+    Loading
   },
   data() {
     return {
@@ -77,12 +85,13 @@ export default {
       pageSize: '',
       total: '',
       articleList: [],
-      pageVo:{
-        current:1,
+      pageVo: {
+        current: 1,
         page: '',
         pageSize: '',
-        total:''
-      }
+        total: ''
+      },
+      loading: false
     }
   },
   methods: {
@@ -93,7 +102,7 @@ export default {
         if (res.data.code === 200) {
           this.articleList = res.data.data
           this.pageVo = res.data.pageVo
-          
+
         }
       })
     },
@@ -106,7 +115,6 @@ export default {
               this.articleList.push(res.data.data[i])
             }
             this.pageVo = res.data.pageVo
-            console.log(this.pageVo)
           }
         })
       }
@@ -141,16 +149,19 @@ export default {
       if (scrollTop + windowHeight1 == scrollHeight && this.pageVo.current * 2 <= this.pageVo.total) {
         //当滚动到底部时,执行此代码框中的代码
         // console.log("you are in the bottom");
-          this.onLoad()        
+        this.onLoad()
       }
     }
   },
   mounted() {
     //监听滚动条增加动画
     window.addEventListener('scroll', this.windowScroll)
+
   },
   created() {
     this.getAll()
+
+
   }
 }
 </script>
@@ -188,13 +199,14 @@ span {
 
 footer {
 
+  // position: fixed;
   clear: both;
   // position: absolute;
   min-height: 100px;
   padding: 15px 0;
   color: #888;
   line-height: 1.5;
-  background-image: linear-gradient(to right, #00c9ff, #92fe9d);
+  background-image: linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%);
 
 
   .font-name {
@@ -204,5 +216,12 @@ footer {
     font-size: 20px;
 
   }
+}
+
+svg {
+  height: 20px;
+  width: 20px;
+  padding-top: 3px;
+  padding-right: 3px;
 }
 </style>

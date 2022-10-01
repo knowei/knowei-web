@@ -8,36 +8,45 @@
                             <use xlink:href="#icon-shouye"></use>
                         </svg></router-link>
                 </li>
-                <li>
-                    <router-link to="/Category">
+                <li class="one">
+                    <router-link to="">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-biji"></use>
                         </svg>
                     </router-link>
+
+                    <ol class="two">
+                        <li v-for="(item, index) in categoryList" :key="index" class="two-li"
+                            @click="go(item.id,'cate',item.categoryName)">{{item.categoryName}}</li>
+                    </ol>
                 </li>
-                <li>
-                    <router-link to="/tag">
+                <li class="one">
+                    <router-link to="">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-biaoqian"></use>
                         </svg>
                     </router-link>
+                    <ol class="two">
+                        <li class="two-li" v-for="(item, index) in tagList" :key="index" @click="go(item.id,'tag',item.tagName)">
+                            {{item.tagName}}</li>
+                    </ol>
                 </li>
                 <li>
                     <router-link to="/video">
                         <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-bilibili"></use>
+                            <use xlink:href="#icon-dianshijuA"></use>
                         </svg>
                     </router-link>
                 </li>
                 <li>
                     <router-link to="/archive">
                         <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-shoucang"></use>
+                            <use xlink:href="#icon-guidang"></use>
                         </svg>
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/">
+                    <router-link to="/my">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-shoucang"></use>
                         </svg>
@@ -50,8 +59,58 @@
 
 <script>
 import "@/assets/js/header"
+import $ from "jquery"
+import { getAllTag } from "@/api/tag"
+import { getAllCategory } from '@/api/category';
 export default {
-
+    data() {
+        return {
+            categoryList: [],
+            tagList: []
+        };
+    },
+    methods: {
+        go(id, str, name) {
+            if(str === 'cate'){
+                this.$router.push({
+                    name: 'category',
+                    params:{
+                        title: name,
+                        id: id
+                        
+                    }
+                })
+            }
+            if(str === 'tag'){
+                this.$router.push({
+                    name: 'tag',
+                    params:{
+                        title: name,
+                        id: id
+                        
+                    }
+                })
+            }
+        },
+        getCategory() {
+            getAllCategory().then(res => {
+                if (res.data.code === 200) {
+                    this.categoryList = res.data.data
+                }
+            })
+        },
+        getTags() {
+            getAllTag().then(res => {
+                if (res.data.code === 200) {
+                    this.tagList = res.data.data
+                }
+            })
+        },
+    },
+    created() {
+        this.getCategory(),
+            this.getTags()
+    }
 }
 </script>
 
@@ -63,11 +122,12 @@ svg {
 }
 
 .header {
-    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+    background-image: linear-gradient(25deg, #a7bdf377, #c1cfe274, #d7e3d186, #ebf6be73);
     z-index: 100;
     position: fixed;
     top: 0;
     left: 0;
+
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -80,7 +140,7 @@ svg {
         text-decoration: none;
         text-transform: uppercase;
         font-weight: 700;
-        color: rgb(255, 253, 253);
+        color: black;
         letter-spacing: 2px;
         font-size: 2em;
         transition: 0.6s;
@@ -112,7 +172,9 @@ svg {
 
 .header.sticky {
     padding: 5px 100px;
-    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+    background: #fdfdfeea;
+    box-shadow: 0px 12px 8px -12px rgba(0, 0, 0, 0.443);
+    transform: translateX(-10);
 
     a {
         color: #000;
@@ -120,12 +182,35 @@ svg {
     }
 }
 
+.two {
+    transform: translate(20px, -25px);
+    position: absolute;
+    transition: all 0.5s;
 
-// .banner{
-//     position: relative;
-//     width: 100%;
-//     height: 100vh;
-//     background: url(https://tvax1.sinaimg.cn/large/006MWoJqgy1h299wqkpalj31e010s1ip.jpg);
-//     background-size: cover;
-// }
+    .two-li {
+        height: 0;
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    opacity: 0;
+}
+
+.one:hover .two {
+    background: #fdfdfe;
+    border-radius: 10px;
+    padding: 10px;
+    transform: translateY(0);
+    opacity: 1;
+
+    .two-li {
+        // height: 20px;
+        padding: 20px 10px;
+    }
+}
+
+.two-li:hover {
+    cursor: pointer;
+    color: chocolate;
+}
 </style>

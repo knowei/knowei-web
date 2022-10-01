@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6544499",
+      "name": "归档",
+      "font_class": "guidang",
+      "unicode": "e6fb",
+      "unicode_decimal": 59131
+    },
+    {
+      "icon_id": "765433",
+      "name": "历史记录",
+      "font_class": "shouye1",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "2076265",
+      "name": "评论",
+      "font_class": "pinglun",
+      "unicode": "e891",
+      "unicode_decimal": 59537
+    },
+    {
+      "icon_id": "17449652",
+      "name": "电视机",
+      "font_class": "dianshijuA",
+      "unicode": "ec92",
+      "unicode_decimal": 60562
+    },
+    {
       "icon_id": "82756",
       "name": "回到顶部",
       "font_class": "huidaodingbu",

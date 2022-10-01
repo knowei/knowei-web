@@ -7,8 +7,29 @@
 
         <div class="pro-file">
             <div class="myinfo">
-                <span style="font-weight: 800;font-size: 3em;letter-spacing: 5px;color: #fff;"> KNOWEIのBLOG</span><br />
-                <span style="font-weight: 300; font-size: 25px;padding-top: 100px;color: #fff">我可以孑然一身，但不能心无所属。</span>
+                <span class="texiao">KNOWEIのBLOG</span><br />
+                <div class="myinfo-yiQ">
+                    <div class="yiyan">我可以孑然一身，但不能心无所属</div>
+                    <div>
+                        <a href="">
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-QQ1"></use>
+                            </svg>
+                        </a>
+                        <a href="">
+                            <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-githubb"></use>
+                        </svg>
+                        </a>
+                        
+                        <a href="https://space.bilibili.com/225564141" target="_blank">
+                            <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-bilibili"></use>
+                        </svg>
+                        </a>
+                        
+                    </div>
+                </div>
             </div>
         </div>
         <div class="down" @click="goDown"></div>
@@ -31,7 +52,7 @@ export default {
                         window.clearInterval(timer)
                         timer = -1
                     }
-                    window.scrollTo(document.documentElement.clientHeight,scrollTo)
+                    window.scrollTo(document.documentElement.clientHeight, scrollTo)
                 }, 10);
             }
         }
@@ -40,6 +61,70 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.myinfo-yiQ {
+    background: #7f7f7f76;
+    max-width: 400px;
+    // align-content: center;
+    padding: 10px;
+    margin: 0 auto;
+    border-radius: 7px;
+
+    .yiyan {
+        margin-bottom: 20px;
+        z-index: 30;
+        font-weight: 600;
+        font-size: 1.2em;
+        background-image: -webkit-linear-gradient(left, #e9a5a5, #b8c1c0 10%, #65c0e0 20%, #aea2db 30%, #81c1d9 40%, #e9a5a5 50%, #b8c1c0 60%, #65c0e0 70%, #aea2db 80%, #81c1d9 90%, #e9a5a5);
+        color: transparent;
+        -webkit-background-clip: text;
+        background-size: 200% 100%;
+        animation: a 5s infinite linear;
+    }
+
+    @keyframes a {
+        0% {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: -100% 0;
+        }
+    }
+
+    svg {
+        width: 26px;
+        height: 26px;
+        margin: 0 10px;
+        cursor: pointer;
+    }
+
+}
+
+.texiao {
+    font-weight: 800;
+    font-size: 3em;
+    letter-spacing: 5px;
+    color: #fff;
+    mix-blend-mode: lighten;
+    transition: all 1s;
+}
+
+.texiao:before {
+    left: 1px;
+    text-shadow: 5px 5px #22c8ed;
+}
+
+.texiao:hover {
+    // color: #ed0909;
+    left: -3px;
+    text-shadow: 5px 5px #22aced;
+}
+
+// .texiao:before {
+//     left: -1px;
+//     text-shadow: 4px 0 #ff3f1a;
+// }
+
 .banner {
     position: relative;
     width: 100%;
