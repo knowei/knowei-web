@@ -2,7 +2,10 @@
   <div class="view">
 
     <div v-show="article == null">
-      <Loading/>
+      <Loading />
+    </div>
+    <div class="" id="gdt" @click="toTop">
+      <a href="" class="scroll"></a>
     </div>
 
     <div class="view-header">
@@ -19,12 +22,9 @@
     </div>
 
     <div class="view-content ">
-
       <hr>
-      <div v-highlight class="view-arti " id="pai-md" v-html="article.articleBodyVo.content">
-
+      <div v-highlight class="view-arti " id="knowei-mark" v-html="article.articleBodyVo.content">
       </div>
-
       <hr />
     </div>
 
@@ -56,7 +56,12 @@
             </div>
             <!-- <div class="friend-title"> -->
             <div class="friend-info">
-              <div class="friend-nickname">{{item.commentUsername}} <span style="cursor: pointer;color:#1a416b;font-weight: 600;"  @click="showDetails(item._id, index)">回复</span></div>
+              <div class="friend-nickname">{{item.commentUsername}} <svg class="icon" aria-hidden="true">
+                  <use
+                    :xlink:href="item.commentUsername == 'K-No-Wei' ? '#icon-ic_userlevel_5': '#icon-ic_userlevel_4'">
+                  </use>
+                </svg><span style="cursor: pointer;color:#1a416b;font-weight: 600;"
+                  @click="showDetails(item._id, index)">回复</span></div>
               <div class="friend-time">{{item.ctime}}</div>
               <!-- 评论内容 -->
               <div class="friend-msg">{{item.content}}</div>
@@ -68,7 +73,9 @@
                   </div>
                   <!-- <div class="friend-title"> -->
                   <div class="friend-child">
-                    <div class="friend-nickname">{{it.commentUsername}} <span style="cursor: pointer;"></span></div>
+                    <div class="friend-nickname">{{it.commentUsername}}<svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-ic_userlevel_5"></use>
+                      </svg> <span style="cursor: pointer;"></span></div>
 
                     <div class="friend-time">{{it.ctime}}</div>
                     <!-- 评论内容 -->
@@ -84,17 +91,6 @@
       </div>
     </div>
 
-    <!-- 右侧工具栏 -->
-    <div class="protools">
-      <ul>
-        <li><svg class="icon" aria-hidden="true" @click="directory = !directory">
-            <use xlink:href="#icon-shaixuan"></use>
-          </svg></li>
-        <li @click="toTop"><svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-huidaodingbu"></use>
-          </svg></li>
-      </ul>
-    </div>
   </div>
 </template>
 
@@ -105,15 +101,19 @@ import message from "@/assets/js/message";
 import { getArticle } from "@/api/article"
 import { Comment, GetComment, GetAv } from "@/api/comment"
 import { marked } from 'marked'
-import loading from '@/components/loading/loading.vue';
+import Loading from '@/components/loading/loading.vue';
+import "@/assets/js/listLoading"
 export default {
+  meta: {
+    index: 7
+  },
   components: {
-    loading
+    Loading
   },
   data() {
     return {
       //文章目录
-
+      icon: '#icon-ic_userlevel_5',
       comment: {
         QQinputData: ''
       },
@@ -165,9 +165,9 @@ export default {
       } else {
         this.QQstatus = true
         GetAv(value).then(res => {
-            this.commentParams.commentUsername = res.data.data.name
-            this.commentParams.authorImg = res.data.data.avatar
-            this.QQinputData = res.data.data.name
+          this.commentParams.commentUsername = res.data.data.name
+          this.commentParams.authorImg = res.data.data.avatar
+          this.QQinputData = res.data.data.name
         })
       }
     },
@@ -179,19 +179,21 @@ export default {
           this.article = res.data.data;
           // md格式渲染在页面
           this.article.articleBodyVo.content = marked(res.data.data.articleBodyVo.content)
-
         }
+
+
+
       })
     },
     submitInfo() {
-      
-      if(this.QQstatus == false)
+
+      if (this.QQstatus == false)
         return;
       this.commentParams.articleId = this.$route.params.id
       console.log(this.commentParams)
       Comment(this.commentParams).then(res => {
         if (res.data.code === 200) {
-          message.run("评论成功","success")
+          message.run("评论成功", "success")
           this.commentParams.parentId = ''
           this.commentParams.content = ''
           this.QQ = ''
@@ -217,57 +219,6 @@ export default {
       this.commentParams.content = '@' + this.articleComment[textid].commentUsername + "    "
     }
   },
-  // mounted() {
-  //   var points = $('#pai-md') //内容列表
-  //   console.log(points)
-  //   var point = ''
-  //   //循环获取内容的所有标签
-  //   for (var i = 0; i < points[0].children.length; i++) {
-
-  //     // 获取带H的标签
-  //     if (points[0].children[i].localName.indexOf('h') !== -1 && points[0].children[i].localName.indexOf('hr') == -1) {
-
-  //       // 获取h2
-  //       if (points[0].children[i].localName.indexOf('h1') !== -1) {
-  //         points[0].children[i].className = i
-
-  //       }
-  //       // // 获取h2
-  //       if (points[0].children[i].localName.indexOf('h2') !== -1) {
-  //         points[0].children[i].className = i
-  //       }
-  //       //获取h3
-  //       if (points[0].children[i].localName.indexOf('h3') !== -1) {
-  //         points[0].children[i].className = i
-  //       }
-
-  //       const title = $.extend(true, {}, points[0].children[i]);
-
-
-  //       point += title.outerHTML
-  //       points[0].children[i].id = `h1_id_${i}`
-
-  //     }
-  //   }
-
-  //   console.log(111111)
-  //   this.point = point
-  //   //循环获取标题标签给内容加点击事件
-  //   //延迟0秒
-  //   setTimeout(function () {
-
-  //     //循环获取内容的所有标签
-  //     for (var i = 0; i < $('#point')[0].children.length; i++) {
-  //       // $('#point')[0].children[i].className 设置class名称
-
-  //       //绑定点击事件根据className定位内容ID位置
-  //       $($('#point')[0].children[i]).click(function (e) {
-  //         location.href = `#h1_id_${e.target.className}`;
-  //       })
-  //     }
-  //   }, 0); //延时10秒
-
-  // },
   //监听数据变换
   watch: {
     QQinputData(value) {
@@ -289,15 +240,17 @@ export default {
   created() {
     this.getArticle()
     this.getAllComment()
+    this.getImages()
   }
 }
 </script>
 
 <style lang="less" scoped>
-@import url("@/assets/css/article.css");
+@import url("@/assets/css/new-article.css");
 @import url("@/assets/css/message.css");
 
 .view-header {
+  position: relative;
   height: 400px;
 
   img {
@@ -308,21 +261,28 @@ export default {
   }
 
   .view-title {
+    font-family: "MYTTF";
     position: absolute;
+    max-width: 70%;
     left: 50%;
-    top: 20%;
-    margin-left: -80px;
+    bottom: 20%;
+    transform: translate(-50%);
+    text-shadow: 0 3px 6px rgb(0 0 0 / 30%);
 
     span {
-      font-size: 2em;
-      color: white;
+
+      font-size: 36px;
+      color: #fff;
       font-weight: 800;
       letter-spacing: 3px;
+      text-shadow: 0 3px 6px rgb(0 0 0 / 30%);
     }
 
     .view-dateTime {
       margin-top: 15px;
-      color: white;
+      color: #fff;
+      font-size: 25px;
+      text-shadow: 0 3px 6px rgb(0 0 0 / 30%);
     }
   }
 }
@@ -406,7 +366,7 @@ export default {
   background: rgba(255, 255, 255, 0.443);
   padding-top: 50px;
   position: relative;
-  max-width: 80%;
+  max-width: 70%;
   margin-left: auto;
   margin-right: auto;
   animation: header-menu 1.8s;
@@ -415,21 +375,12 @@ export default {
   border-radius: 10px;
 
   hr {
-    margin: 0 auto;
+    margin: 10px auto 0;
     width: 96%;
     border: 1px dashed #ececec;
   }
 
-  .view-arti {
-
-    // background: rgba(255, 255, 255, 0.373);
-
-    margin: 0 100px;
-
-    pre {
-      background: rgba(221, 215, 215, 0.668) !important;
-    }
-  }
+  .view-arti {}
 }
 
 .view {
@@ -450,7 +401,7 @@ export default {
   padding-bottom: 30px;
   // box-shadow: 1px 0px 10px 10px #a1a0a082;
   border-radius: 10px;
-  max-width: 80%;
+  max-width: 76%;
   margin-left: auto;
   margin-right: auto;
 
@@ -549,6 +500,15 @@ export default {
 
 // 小伙伴的评论区
 .friend {
+
+  svg {
+    margin: 0 2px -7px;
+    height: 25px;
+    width: 25px;
+    align-content: center;
+
+  }
+
   padding: 10px 10px;
 
   img {
@@ -565,10 +525,11 @@ export default {
 
   .friend-container {
     padding-top: 30px;
+
     .friend-info {
       margin-left: 60px;
       display: block;
-      border-bottom: 1px dashed rgb(185, 184, 184);
+      border-bottom: 1px solid rgba(185, 184, 184, 0.766);
 
       div {
         display: list-item;
@@ -601,6 +562,52 @@ export default {
       font-size: 15px;
     }
 
+  }
+}
+
+/**.scro显示动画效果 */
+.scro {
+  z-index: 10;
+  clear: both;
+  position: fixed;
+  right: 7%;
+  width: 70px;
+  height: 900px;
+  cursor: pointer;
+  background: url("@/assets/img/scroll.png");
+  animation: myAnimation 1s linear forwards;
+}
+
+/**.guanbi隐藏动画 */
+.guanbi {
+  z-index: 10;
+  clear: both;
+  position: fixed;
+  right: 7%;
+  width: 70px;
+  height: 900px;
+  cursor: pointer;
+  background: url("@/assets/img/scroll.png");
+  animation: guanbi 1s linear forwards;
+}
+
+@keyframes myAnimation {
+  from {
+    transform: translate(0, -900px);
+  }
+
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes guanbi {
+  from {
+    transform: translate(0, 0);
+  }
+
+  to {
+    transform: translate(0, -900px);
   }
 }
 </style>

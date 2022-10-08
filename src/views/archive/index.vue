@@ -31,6 +31,9 @@
 <script>
 import {archive} from "@/api/archive"
 export default {
+  meta:{
+    index: 4
+  },
   data(){
     return{
       archive: [

@@ -55,6 +55,9 @@ import { getCategoryById } from "@/api/category"
 import Loading from "@/components/loading/loading.vue";
 
 export default {
+  meta:{
+    index: 1
+  },
   name: 'Home',
   components: {
     Header,

@@ -10,7 +10,9 @@
 
 <script>
 export default {
-
+    meta: {
+        index: 3
+    },
 }
 </script>
 

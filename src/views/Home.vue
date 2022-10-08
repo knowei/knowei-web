@@ -6,10 +6,12 @@
       <Loading />
     </div>
 
-    <div v-if="this.$route.path != '/'">
-      <router-view :key="1"/>
-    </div>
-    <div v-else>
+    <section v-if="this.$route.path != '/'">
+      <transition :name="transitionName">
+        <router-view :key="1" />
+      </transition>
+    </section>
+    <section v-else>
       <Profile />
       <!-- //滚动条监听 -->
       <div class="index-content" flex="auto" @scroll=handleScrollScroll()>
@@ -53,7 +55,11 @@
           </article>
         </div>
       </div>
-    </div>
+    </section>
+
+    <meting-js server="netease" type="playlist" id="7637776489" fixed="true" autoplay="false" loop="all" order="list"
+      preload="auto" list-folded="true" list-max-height="500px" lrc-type="1">
+    </meting-js>
 
     <footer>
       <div class="my-footer">
@@ -68,11 +74,14 @@ import $ from "jquery"
 import Header from '@/components/Header.vue';
 import Profile from '@/components/Profile.vue';
 //鼠标样式
-import "@/assets/js/shubiao"
+// import "@/assets/js/shubiao"
 import { getAtricleList } from "@/api/article"
 import Loading from "@/components/loading/loading.vue";
 
 export default {
+  meta: {
+    index: 0
+  },
   name: 'Home',
   components: {
     Header,
@@ -91,7 +100,8 @@ export default {
         pageSize: '',
         total: ''
       },
-      loading: false
+      loading: false,
+      transitionName: ''
     }
   },
   methods: {
@@ -147,8 +157,6 @@ export default {
       var windowHeight1 = document.documentElement.clientHeight;;
 
       if (scrollTop + windowHeight1 == scrollHeight && this.pageVo.current * 2 <= this.pageVo.total) {
-        //当滚动到底部时,执行此代码框中的代码
-        // console.log("you are in the bottom");
         this.onLoad()
       }
     }
@@ -162,12 +170,26 @@ export default {
     this.getAll()
 
 
+  },
+  watch: {
+    $route(to, from) {
+      //如果to索引大于from索引,判断为前进状态,反之则为后退状态
+      if (to.meta.index > from.meta.index) {
+        //设置动画名称
+        this.transitionName = "slide-left";
+      } else {
+        this.transitionName = "slide-right";
+      }
+
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
 @import url("@/assets/scss/lbtu.scss");
+@import url("@/assets/css/APlayer.min.css");
+@import url("@/assets/css/cur.css");
 
 .arright {
   border-bottom-right-radius: 0px !important;
@@ -206,7 +228,7 @@ footer {
   padding: 15px 0;
   color: #888;
   line-height: 1.5;
-  background-image: linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%);
+  background-image: linear-gradient(135deg, #ABDCFF 10%, #0396FF 100%);
 
 
   .font-name {

@@ -55,6 +55,9 @@ import { getArticlesById } from "@/api/tag"
 import Loading from "@/components/loading/loading.vue";
 
 export default {
+  meta:{
+    index: 2
+  },
   name: 'Home',
   components: {
     Header,

@@ -1,6 +1,6 @@
 <template>
     <div class="my-header">
-        <div class="header">
+        <header class="header">
             <router-link to="/" class="logo">LOGO</router-link>
             <ul>
                 <li>
@@ -53,7 +53,7 @@
                     </router-link>
                 </li>
             </ul>
-        </div>
+        </header>
     </div>
 </template>
 

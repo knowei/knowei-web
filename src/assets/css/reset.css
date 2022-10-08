@@ -1,21 +1,24 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    /* font-family: "Poppins"; */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font-family: "Poppins"; */
+}
+ @font-face {
+  font-family: 'MYTTF';
+  /* src: url(../ttf/三极萌萌简体.ttf); */
+  src: url(../ttf/三极萌萌简体.woff2) format("woff2");
+  src: url(../ttf/三极萌萌简体.woff) format("woff");
+
+
+} 
+
+body {
+  /* 默认最小高度 2屏 */
+  min-height: 100vh;
+  background-color: rgb(255, 255, 255);
 }
 
-/* @font-face {
-  font-family: 'MYTTF';
-  src: url(../ttf/字体视界-小南同学.ttf);
-} */
-  
-body{
-    /* 默认最小高度 2屏 */
-    min-height: 100vh;
-    background-color: rgb(255, 255, 255);
-    /* font-family: 'MYTTF'; */
-}
 /* // 美化滚动条 */
 ::-webkit-scrollbar {
   width: 5px;

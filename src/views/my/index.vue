@@ -26,7 +26,9 @@
 
 <script>
 export default {
-
+  meta:{
+    index: 5
+  },
 }
 </script>
 
